@@ -9,6 +9,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 public class App {
@@ -28,13 +29,15 @@ public final static ObjectMapper mapper = new ObjectMapper();
         request.setHeader(HttpHeaders.ACCEPT, ContentType.APPLICATION_JSON.getMimeType());
 
         CloseableHttpResponse response = httpClient.execute(request);
-        //Arrays.stream(response.getAllHeaders()).forEach(System.out::println);
+        Arrays.stream(response.getAllHeaders()).forEach(System.out::println);
 
         List<Cat> cats = mapper.readValue(response.getEntity().getContent(), new TypeReference<>() {});
+
         for (Cat cat : cats){
             if (cat.getUpvotes() != 0){
                 System.out.println(cat);
             }
+
         }
     }
 }
